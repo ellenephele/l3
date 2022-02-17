@@ -1,13 +1,13 @@
 <template>
   <div>
-    <label for="value">
-      <input id="value" type="text" placeholder="Amount" v-model="value">
+    <label for="date">
+      <input id="date" type="text" placeholder="Date" v-model="date">
     </label>
     <label for="category">
       <input id="category" type="text" placeholder="Type" v-model="category">
     </label>
-    <label for="date">
-      <input id="date" type="text" placeholder="Date" v-model="date">
+    <label for="value">
+      <input id="value" type="text" placeholder="Amount" v-model="value">
     </label>
     <button @click="addPayment">Add</button>
   </div>
@@ -17,9 +17,9 @@
 export default {
   name: 'AddPaymentForm',
   data: () => ({
-    value: '',
-    category: '',
     date: '',
+    category: '',
+    value: '',
   }),
   methods: {
     addPayment() {
@@ -32,9 +32,9 @@ export default {
         value, category, date, paymentDay,
       } = this;
       const data = {
-        value,
-        category,
         date: date || paymentDay,
+        category,
+        value,
       };
 
       // console.log(data);
