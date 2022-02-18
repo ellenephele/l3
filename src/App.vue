@@ -8,8 +8,13 @@
 
     <main>
 <!--      <PaymentDisplay :items="paymentsList" :show="true"/>-->
+<!--      <PaymentDisplay :items="$store.state.paymentsList"/>-->
+      <div>Total: {{ paymentsListTotalAmount }}</div>
       <PaymentDisplay :items="paymentsList"/>
-      <AddPaymentForm @add-payment="addPayment"/>
+      <AddPaymentForm
+          @add-payment="addPayment"
+          :categoryList="categoryList"
+      />
     </main>
   </div>
 </template>
@@ -17,6 +22,7 @@
 <script>
 // import MyCounter from '@/components/Counter.vue';
 
+import { mapMutations, mapActions, mapGetters } from 'vuex';
 import PaymentDisplay from '@/components/PaymentDisplay.vue';
 import AddPaymentForm from '@/components/AddPaymentForm.vue';
 
@@ -28,42 +34,58 @@ export default {
     // MyCounter,
   },
   data: () => ({
-    show: true,
-    counter: 0,
-    paymentsList: [],
+    // show: true,
+    // counter: 0,
+    // paymentsList: [],
   }),
   methods: {
+    ...mapMutations(['ADD_PAYMENT_DATA']),
+    ...mapActions([
+      'fetchData',
+      'fetchCategoryList',
+    ]),
     // increase(step, event) {
     //   // eslint-disable-next-line no-plusplus
     //   this.counter += step;
     //   console.log(event);
     // },
-    fetchData() {
-      return [
-        {
-          date: '28.03.2020',
-          category: 'Food',
-          value: 169,
-        },
-        {
-          date: '24.03.2020',
-          category: 'Transport',
-          value: 360,
-        },
-        {
-          date: '24.03.2020',
-          category: 'Food',
-          value: 532,
-        },
-      ];
-    },
+    // fetchData() {
+    //   return [
+    //     {
+    //       date: '28.03.2020',
+    //       category: 'Food',
+    //       value: 169,
+    //     },
+    //     {
+    //       date: '24.03.2020',
+    //       category: 'Transport',
+    //       value: 360,
+    //     },
+    //     {
+    //       date: '24.03.2020',
+    //       category: 'Food',
+    //       value: 532,
+    //     },
+    //   ];
+    // },
     addPayment(data) {
       // console.log(data);
-      this.paymentsList.push(data);
+      // this.paymentsList.push(data);
+      this.ADD_PAYMENT_DATA(data);
     },
   },
+  computed: {
+    ...mapGetters([
+      'paymentsList',
+      'paymentsListTotalAmount',
+      'categoryList',
+    ]),
+  },
   created() {
-    this.paymentsList = this.fetchData();
+    // this.paymentsList = this.fetchData();
+    console.log(this.$store);
+    this.fetchData();
+    this.fetchCategoryList();
   },
 };
 </script>
